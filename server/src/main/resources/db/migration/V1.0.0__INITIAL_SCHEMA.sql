@@ -56,7 +56,7 @@ BEGIN
 	--Users
 	user_admin_id := gen_random_uuid();
 	INSERT INTO users (id, login, email, disabled, creation, password)--user: admin, pass: admin
-	VALUES(user_admin_id, 'admin', 'admin@meengine.com', false, NOW(), '{bcrypt}$2a$12$X4flUx.23h1/GDdk1BvsqONeX3p0QatdMASCz0AB1gSzkOl50zD4G');
+	VALUES(user_admin_id, 'admin', 'admin@meshop.com', false, NOW(), '{bcrypt}$2a$12$X4flUx.23h1/GDdk1BvsqONeX3p0QatdMASCz0AB1gSzkOl50zD4G');
 	--Roles
 	role_admin_id := gen_random_uuid();
 	INSERT INTO roles (id, code, description)

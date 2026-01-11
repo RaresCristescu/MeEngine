@@ -75,7 +75,7 @@ public class SecurityService {
 
 			sessionKey.setPublicKey(publicKeyBase64);
 			
-			final String jwt = JwtUtils.generateToken(sessionKey.getId().toString(), "me-engine-api-token", privateKeyBase64);
+			final String jwt = JwtUtils.generateToken(sessionKey.getId().toString(), "me-shop-api-token", privateKeyBase64);
 			return jwt;
 		}catch (Exception e) {
 			log.error("Error generating JWT for session: {} Error trace: {}", sessionKey.getId(), e);
