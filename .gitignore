@@ -43,9 +43,9 @@ build/
 *.jar
 
 #Node.js/react ignore rules
-/server/frontend/node_modules/
-/server/frontend/build/
-/server/frontend/.env
+/server/frontend/me-engine/node_modules/
+/server/frontend/me-engine/build/
+/server/frontend/me-engine/.env
 /server/frontend/me-engine/package-lock.json
 
 #Custom files not to include
