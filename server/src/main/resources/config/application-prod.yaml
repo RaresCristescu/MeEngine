@@ -1,0 +1,17 @@
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5432/postgresprod
+        username: postgresprod
+        password: postgresprod
+        driver-class-name: org.postgresql.Driver
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        hibernate:
+            ddl-auto: update
+        show-sql: false
+        database: postgresql
+logging:
+    level:
+        org:
+            springframework:
+                security: ${SPRING_SECURITY_LOG_LEVEL:DEBUG}

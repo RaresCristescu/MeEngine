@@ -1,0 +1,37 @@
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5432/postgres
+        username: postgres
+        password: postgres
+        driver-class-name: org.postgresql.Driver
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        hibernate:
+            ddl-auto: validate
+        show-sql: false #true daca vrei sa vezi ce query da la baza de date
+        database: postgresql
+    security:
+        user:
+            name: ${SECURITY_USERNAME:user}
+            password: ${SECURITY_PASSWORD:123}
+
+#Config for HTTPS ssl authentication
+server:
+#    port: 8443
+#    ssl:
+#        enabled: true
+#        key-store: classpath:keystore.p12
+#        key-store-password: 12345678
+#        key-store-type: PKCS12
+#        key-alias: tomcat
+    servlet:
+        session:
+            timeout: ${SESSION_TIMEOUT:20m}
+
+logging:
+    level:
+        org:
+            springframework:
+                security: ${SPRING_SECURITY_LOG_LEVEL:INFO} #TRACE
+    pattern:
+        console: '${LOGPATTERN_CONSOLE:%green(%d{dd/MM/yyyy HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}) - %msg%n}'
