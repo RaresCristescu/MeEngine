@@ -20,7 +20,7 @@ public class JwtUtils {
 
 		try {
 			privateKey = KeyUtils.loadEs512PrivateKey(privateKeyBase64);
-			return Jwts.builder().issuer("MeTube").subject(apiSessionKey).claims(calims).signWith(privateKey).compact();
+			return Jwts.builder().issuer("MeEngine").subject(apiSessionKey).claims(calims).signWith(privateKey).compact();
 		} catch (Exception e) {
 			throw e;
 		}

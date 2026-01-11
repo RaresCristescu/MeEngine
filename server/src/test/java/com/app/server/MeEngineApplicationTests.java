@@ -1,10 +1,10 @@
-package com.metube.MeTube;
+package com.app.server;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 //@SpringBootTest
-class MeTubeApplicationTests {
+class MeEngineApplicationTests {
 
 //	@Test
 	void contextLoads() {

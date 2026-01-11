@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MeTubeApplication {
+public class MeEngineApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MeTubeApplication.class, args);
+		SpringApplication.run(MeEngineApplication.class, args);
 	}
 
 }

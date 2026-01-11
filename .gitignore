@@ -48,6 +48,6 @@ build/
 /frontend/.env
 
 #Custom files not to include
-/server/frontend/me-tube/package-lock.json
+/server/frontend/me-engine/package-lock.json
 /.sdkmanrc
 

@@ -14,7 +14,7 @@
 	<description>Video and audio player online</description>
 
 	<properties>
-		<start-class>com.app.server.MeTubeApplication</start-class>
+		<start-class>com.app.server.MeEngineApplication</start-class>
 	</properties>
 	
 	<profiles>
