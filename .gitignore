@@ -44,6 +44,9 @@ build/
 
 #Node.js/react ignore rules
 /server/frontend/me-shop/node_modules/
+/server/frontend/me-shop/node/
+/server/frontend/me-shop/dist/
+/server/frontend/me-shop/dist-ssr/
 /server/frontend/me-shop/build/
 /server/frontend/me-shop/.env
 /server/frontend/me-shop/package-lock.json

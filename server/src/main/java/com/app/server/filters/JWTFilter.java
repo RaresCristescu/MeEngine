@@ -22,11 +22,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class JWTTokenValidatorFilter extends OncePerRequestFilter{
+public class JWTFilter extends OncePerRequestFilter{
 	
 	  private final SecurityService securityService; 
 
-	    public JWTTokenValidatorFilter(SecurityService securityService) {
+	    public JWTFilter(SecurityService securityService) {
 	        this.securityService = securityService;
 	    }
 	    
@@ -39,13 +39,13 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter{
 
 	        String header = request.getHeader(AppConstants.JWT_HEADER);
 
-	        if (header == null || !header.startsWith("user ")) {
+	        if (header == null || !header.startsWith("Bearer ")) {
 	            filterChain.doFilter(request, response);
 	            return;
 	        }
 
 	        try {
-	            String token = header.substring(5);
+	            String token = header.substring(7);
 
 	            String sessionId = JwtUtils.extractSessionIdUnverified(token);
 	            if (sessionId == null) {

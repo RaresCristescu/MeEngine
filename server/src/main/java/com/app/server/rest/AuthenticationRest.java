@@ -23,6 +23,6 @@ public class AuthenticationRest {
 	@PostMapping("/login")
 	public String login(@RequestBody UserAuthenticationDto user) {
 		String token = securityService.login(user.getUsername(), user.getPassword());
-		return "user " + token;
+		return token;
 	}
 }

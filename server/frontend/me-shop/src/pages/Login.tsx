@@ -33,7 +33,7 @@ const Login = () => {
                  const token = res.data;
 
                 // Store JWT in a cookie
-                document.cookie = `token=${token}; path=/; Secure; SameSite=Strict; max-age=3600`;
+                document.cookie = `api_token=${token}; path=/; Secure; SameSite=Strict; max-age=3600`;
                 navigate("/messages");
             });
 

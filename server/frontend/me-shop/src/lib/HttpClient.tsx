@@ -12,21 +12,30 @@ function getCookie(name: string): string | null {
 
 // Create Axios instance
 const api = axios.create({
-  baseURL: "http://localhost:8080/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: "http://localhost:8080/api"
 });
 
 // Interceptor to add Authorization if cookie exists
+// api.interceptors.request.use((config) => {
+//   const token = getCookie("api_token");
+//   if (token) {
+//     // Type assertion to satisfy Axios v1 typing
+//     if (!config.headers) config.headers = {} as any;
+//     (config.headers as any)["Authorization"] = `${token}`;
+//   }
+//   return config;
+// });
+
 api.interceptors.request.use((config) => {
-  const token = getCookie("token");
+  const token = getCookie("api_token");
+
   if (token) {
-    // Type assertion to satisfy Axios v1 typing
-    if (!config.headers) config.headers = {} as any;
-    (config.headers as any)["Authorization"] = `${token}`;
+    config.headers.Authorization = `Bearer ${token}`;
   }
+
+  config.headers["Content-Type"] = "application/json";
+  config.headers.Accept = "application/json";
+
   return config;
 });
-
 export default api;

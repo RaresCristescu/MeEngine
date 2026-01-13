@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, MutableRefObject } from "react";
+import { useRef, useState, useEffect } from "react";
 import HttpClient from "../lib/HttpClient.tsx";
 
 
@@ -25,7 +25,6 @@ const Register = () => {
     const [matchFocus, setMatchFocus] = useState(false);
 
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         userRef.current.focus();
@@ -73,7 +72,6 @@ const Register = () => {
 
             alert("User registered successfully!");
             console.log(user, pwd, email);
-            setSuccess(true);
         } catch (error) {
             console.error(error);
             alert("Registration failed");
@@ -125,6 +123,10 @@ const Register = () => {
                     onFocus={() => setEmailFocus(true)}
                     onBlur={() => setEmailFocus(false)}
                 />
+                <p id="uidnote" className={emailFocus ? "instructions" : "offscreen"}>
+                    <i className="bi bi-info-circle"></i>
+                    Complete email address.
+                </p>
 
                 <label htmlFor="password">
                     Password:

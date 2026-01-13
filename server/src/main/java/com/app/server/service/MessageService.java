@@ -9,19 +9,18 @@ import org.springframework.stereotype.Service;
 
 import com.app.data.dto.MessageDto;
 import com.app.data.entity.Message;
-import com.app.data.mapper.MapperUtils;
 import com.app.data.mapper.MessageMapper;
-import com.app.data.mapper.ModelMapper;
 import com.app.data.repo.MessageRepo;
 
 @Service
 public class MessageService {
 
 	private final MessageRepo repo;
-	private final ModelMapper<Message, MessageDto> messageMapper = MapperUtils.getMapper(MessageMapper.class);
+	private final MessageMapper messageMapper;
 
-	public MessageService(MessageRepo repo) {
+	public MessageService(MessageRepo repo, MessageMapper messageMapper) {
 		this.repo = repo;
+		this.messageMapper = messageMapper;
 	}
 	
 	public MessageDto getMessage(final UUID id) {
