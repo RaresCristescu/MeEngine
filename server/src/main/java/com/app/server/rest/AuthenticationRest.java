@@ -20,6 +20,12 @@ public class AuthenticationRest {
 		this.securityService = securityService;
 	}
 
+	@PostMapping("")
+	public String auth(@RequestBody UserAuthenticationDto user) {
+		String token = securityService.login(user.getUsername(), user.getPassword());
+		return "Bearer " + token;
+	}
+
 	@PostMapping("/login")
 	public String login(@RequestBody UserAuthenticationDto user) {
 		String token = securityService.login(user.getUsername(), user.getPassword());

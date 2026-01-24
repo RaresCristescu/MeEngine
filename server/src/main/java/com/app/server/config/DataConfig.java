@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@EntityScan("com.app.data.entity") // TODO look for better options
+@EntityScan("com.app.data") // TODO look for better options
 @EnableJpaRepositories("com.app.data.repo") // TODO look for better options
 @ComponentScan(basePackages = "com.app")
 public class DataConfig {

@@ -36,8 +36,5 @@ public class Product extends CommonEntity {
 
 	@Column(name = "is_active")
 	private Boolean isActive;
-	
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "product", orphanRemoval = true)
-	private Inventory inventory;
 
 }

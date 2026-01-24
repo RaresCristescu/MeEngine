@@ -22,15 +22,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "inventories")
-@AttributeOverride(
-	    name = "id",
-	    column = @Column(name = "product_id")
-	)
 public class Inventory extends CommonEntity {
 	private static final long serialVersionUID = -5554115834257877633L;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_id")
+	@OneToOne(optional=false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "product_id", nullable = false, unique = true)
 	private Product product;
 
 	@Column(name = "total_quantity")

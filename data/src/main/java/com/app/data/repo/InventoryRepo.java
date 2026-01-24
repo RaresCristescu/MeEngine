@@ -1,5 +1,6 @@
 package com.app.data.repo;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,4 +31,6 @@ public interface InventoryRepo extends JpaRepository<Inventory, UUID>, JpaSpecif
 		    where i.product.id = :id
 		""")
 	Integer findAvailableStockById(UUID id);
+	
+	Optional<Inventory> findByProductId(UUID productTd);
 }

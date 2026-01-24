@@ -12,11 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDto {
+public class ProductChangePriceDto {
 	private UUID id;
-	private String name;
-	private String description;
 	private Long price;
-	private Boolean inStock;
-	private Integer stockQuantity;
 }

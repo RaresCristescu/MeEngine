@@ -9,6 +9,7 @@ DECLARE
 	cart_test3_id UUID;
 	cart_test4_id UUID;
 	user_admin_id UUID;
+	user_test_id UUID;
 BEGIN
 	CREATE TABLE products
 	(
@@ -25,26 +26,28 @@ BEGIN
 	
 	CREATE TABLE inventories
 	(
+		id UUID NOT NULL DEFAULT gen_random_uuid(),
 		product_id UUID NOT NULL,
 		total_quantity INTEGER NOT NULL DEFAULT 0,
 		reserved_quantity INTEGER NOT NULL DEFAULT 0,
 		creation TIMESTAMP WITH TIME ZONE NOT NULL,
 		modified TIMESTAMP WITH TIME ZONE,
 		expires TIMESTAMP WITH TIME ZONE,
-		CONSTRAINT inventories_pk primary key (product_id),
-		CONSTRAINT inventories_product_fk FOREIGN KEY (product_id) REFERENCES "products"(id)
+		CONSTRAINT inventories_pk primary key (id),
+		CONSTRAINT inventories_product_fk FOREIGN KEY (product_id) REFERENCES "products"(id) ON DELETE CASCADE
 	);
 	
 	CREATE TABLE carts
 	(
 		id UUID NOT NULL DEFAULT gen_random_uuid(),
-		user_id UUID NOT NULL,
+		cart_token UUID UNIQUE  DEFAULT gen_random_uuid(),
+		user_id UUID UNIQUE,
 		status CHARACTER VARYING(20),
 		creation TIMESTAMP WITH TIME ZONE NOT NULL,
 		modified TIMESTAMP WITH TIME ZONE,
 		expires TIMESTAMP WITH TIME ZONE,
 		CONSTRAINT carts_pk primary key (id),
-		CONSTRAINT carts_user_fk FOREIGN KEY (user_id) REFERENCES "users"(id)
+		CONSTRAINT carts_user_fk FOREIGN KEY (user_id) REFERENCES "users"(id) ON DELETE CASCADE
 	);
 	
 	CREATE TABLE cart_product
@@ -52,27 +55,29 @@ BEGIN
 		id UUID NOT NULL DEFAULT gen_random_uuid(),
 		cart_id UUID NOT NULL,
 		product_id UUID NOT NULL,
-		quantity NUMERIC(24),
+		quantity BIGINT,
 		creation TIMESTAMP WITH TIME ZONE NOT NULL,
 		modified TIMESTAMP WITH TIME ZONE,
 		expires TIMESTAMP WITH TIME ZONE,
 		CONSTRAINT cart_product_pk primary key (id),
-		CONSTRAINT cart_product_cart_fk FOREIGN KEY (cart_id) REFERENCES "carts"(id),
-		CONSTRAINT cart_product_product_fk FOREIGN KEY (product_id) REFERENCES "products"(id),
+		CONSTRAINT cart_product_cart_fk FOREIGN KEY (cart_id) REFERENCES "carts"(id) ON DELETE CASCADE,
+		CONSTRAINT cart_product_product_fk FOREIGN KEY (product_id) REFERENCES "products"(id) ON DELETE CASCADE,
 		CONSTRAINT cart_product_unique UNIQUE (cart_id, product_id),
         CONSTRAINT cart_quantity_bigger_then_1 CHECK (quantity >= 1)
 	);
 	
-	CREATE OR REPLACE VIEW "product_stock" as
-		(SELECT
-		    p.id AS product_id,
-		    p.name AS name,
-		    p.description AS description,
-		    p.price AS price,
-		    i.total_quantity - i.reserved_quantity > 0 as in_stock,
-		    i.total_quantity - i.reserved_quantity as stock_quantity
-		FROM products p
-		JOIN inventories i ON p.id = i.product_id);
+	CREATE OR REPLACE VIEW product_stock_view AS
+	SELECT
+	    p.id AS product_id,
+	    p.name AS name,
+	    p.description AS description,
+	    p.price AS price,
+	    (i.total_quantity - i.reserved_quantity) > 0 AS in_stock,
+	    (i.total_quantity - i.reserved_quantity) AS stock_quantity
+	FROM products p
+	JOIN inventories i ON p.id = i.product_id
+	WHERE p.expires IS NULL
+  		OR p.expires > CURRENT_TIMESTAMP;
 	
 	--products
 	product_test1_id := gen_random_uuid();
@@ -103,14 +108,13 @@ BEGIN
 	cart_test4_id := gen_random_uuid();
 	
 	SELECT id INTO user_admin_id FROM users WHERE login = 'admin';
+	SELECT id INTO user_test_id FROM users WHERE login = 'string';
     
 	INSERT INTO carts
 	(id, user_id, status, creation)
 	VALUES
-		(cart_test1_id, user_admin_id, 'active', NOW()),
-		(cart_test2_id, user_admin_id, 'active', NOW()),
-		(cart_test3_id, user_admin_id, 'active', NOW()),
-		(cart_test4_id, user_admin_id, 'active', NOW());
+		(cart_test1_id, user_admin_id, 'ACTIVE', NOW()),
+		(cart_test2_id, user_test_id, 'ACTIVE', NOW());
 		
 	--cart_product
 	INSERT INTO cart_product
@@ -118,12 +122,11 @@ BEGIN
 	VALUES
 		(gen_random_uuid(), cart_test1_id, product_test1_id, 5, NOW()),
 		(gen_random_uuid(), cart_test2_id, product_test2_id, 2, NOW()),
-		(gen_random_uuid(), cart_test4_id, product_test3_id, 10, NOW()),
+		(gen_random_uuid(), cart_test1_id, product_test3_id, 10, NOW()),
 		(gen_random_uuid(), cart_test2_id, product_test4_id, 1, NOW()),
-		(gen_random_uuid(), cart_test3_id, product_test1_id, 8, NOW()),
-		(gen_random_uuid(), cart_test4_id, product_test2_id, 1, NOW()),
-		(gen_random_uuid(), cart_test2_id, product_test3_id, 2, NOW()),
-		(gen_random_uuid(), cart_test2_id, product_test1_id, 50, NOW());
+		(gen_random_uuid(), cart_test2_id, product_test1_id, 8, NOW()),
+		(gen_random_uuid(), cart_test1_id, product_test2_id, 1, NOW()),
+		(gen_random_uuid(), cart_test2_id, product_test3_id, 2, NOW());
 	
 END
 $body$ language plpgsql;

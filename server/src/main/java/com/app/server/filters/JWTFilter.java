@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.app.data.entity.SessionKey;
+import com.app.security.constants.SecurityConstants;
 import com.app.security.utils.JwtUtils;
-import com.app.server.constants.AppConstants;
 import com.app.server.service.SecurityService;
 
 import jakarta.servlet.FilterChain;
@@ -37,7 +37,7 @@ public class JWTFilter extends OncePerRequestFilter{
 	            FilterChain filterChain
 	    ) throws ServletException, IOException {
 
-	        String header = request.getHeader(AppConstants.JWT_HEADER);
+	        String header = request.getHeader(SecurityConstants.JWT_HEADER);
 
 	        if (header == null || !header.startsWith("Bearer ")) {
 	            filterChain.doFilter(request, response);
@@ -89,6 +89,7 @@ public class JWTFilter extends OncePerRequestFilter{
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 		 return request.getServletPath().equals("/api/auth/login")
+				 	|| request.getServletPath().equals("/api/auth")
 	                || request.getServletPath().equals("/api/user/register")
 	                || request.getServletPath().startsWith("/swagger-ui/")
 	                || request.getServletPath().startsWith("/v3/api-docs");

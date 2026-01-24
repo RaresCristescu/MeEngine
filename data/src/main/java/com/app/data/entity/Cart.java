@@ -2,6 +2,7 @@ package com.app.data.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -28,8 +29,11 @@ import lombok.Setter;
 public class Cart extends CommonEntity {
 	private static final long serialVersionUID = -5554115834257877633L;
 	
+	@Column(name = "cart_token", unique = true)
+	private UUID cartToken;
+	
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id", nullable = true, unique = true)
 	private User user;
 
 	@Column(name = "status")

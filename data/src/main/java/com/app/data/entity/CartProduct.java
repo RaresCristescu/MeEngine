@@ -33,6 +33,6 @@ public class CartProduct extends CommonEntity {
 	private Product product;
 
 	@Column(name = "quantity")
-	private BigDecimal quantity;
+	private Long quantity;
 
 }
